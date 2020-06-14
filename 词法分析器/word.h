@@ -1,5 +1,6 @@
 #pragma once
-enum 
+#include<stack>
+enum TokenID
 {
 	AND=1,
 	ARRAY,
@@ -11,7 +12,7 @@ enum
 	DOWNTO,
 	ELSE,
 	END,
-	FILE,
+	_FILE,
 	FOR,
 	FUNC,
 	GOTO,
@@ -65,3 +66,8 @@ enum
 	RS_BRAC,
 	Q_MARK
 };
+std::stack<char>stack_data;
+char get_data;    //通过文件获取的字符
+int station = 0;  //当前状态
+fstream input_file; //文件对象
+string word;
