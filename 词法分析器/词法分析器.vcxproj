@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="word.cpp" />
     <ClCompile Include="词法分析器.cpp" />
   </ItemGroup>
   <ItemGroup>

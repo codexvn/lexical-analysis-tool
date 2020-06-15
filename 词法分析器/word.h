@@ -1,8 +1,12 @@
 #pragma once
+#include "word.h"
 #include<stack>
+#include<fstream>
+#include<unordered_map>
+using namespace std;
 enum TokenID
 {
-	AND=1,
+	AND = 1,
 	ARRAY,
 	BEGIN,
 	CASE,
@@ -20,7 +24,7 @@ enum TokenID
 	IN,
 	LABEL,
 	MOD,
-	NIF,
+	NIL,
 	NOT,
 	OF,
 	OR,
@@ -66,8 +70,9 @@ enum TokenID
 	RS_BRAC,
 	Q_MARK
 };
-std::stack<char>stack_data;
-char get_data;    //通过文件获取的字符
-int station = 0;  //当前状态
-fstream input_file; //文件对象
-string word;
+extern std::stack<char>stack_data;
+extern char get_data;    //通过文件获取的字符
+extern int station;  //当前状态
+extern fstream input_file; //文件对象
+extern string word;
+extern unordered_map<string, enum TokenID>unordered_map_data;

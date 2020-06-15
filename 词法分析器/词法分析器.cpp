@@ -1,6 +1,7 @@
 ﻿#include<iostream>
 #include<fstream>
 #include<stack>
+#include<cctype>
 #include<boost/program_options.hpp>
 #include "word.h"
 using namespace std;
@@ -12,22 +13,28 @@ char NextChar(void) {
 		get_data = stack_data.top();
 		stack_data.pop();
 	}
-	word += get_data;
+	if (isspace(get_data) == 0 and get_data != EOF)
+		word += get_data;
 	return get_data;
 }
 void PrintWord(TokenID id, string value = "") {
 	if (stack_data.empty() == false)
-		word.erase(word.end() - 1);
+		if (isspace(stack_data.top()) != 0 or get_data == EOF)
+			stack_data.pop();
+		else
+			word.erase(word.end() - 1);
+	if (unordered_map_data.find(word) != unordered_map_data.end())
+		id = unordered_map_data[word];
 	if (value != "")
 		cout << "< " << id << " , " << value << " >" << endl;
 	else
 		cout << "< " << id << " , " << word << " >" << endl;
 	word.clear();
+	input_file >> ws;
 	station = 0;
 }
 int main(int argc, char* argv[])
 {
-
 	try {
 		options_description desc("允许的参数");
 		desc.add_options()
@@ -43,7 +50,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		cout << data["I"].as<string>();
+		//cout << data["I"].as<string>();
 		if (data.count("I") == 0)
 			cout << "未指定输入文件";
 		else {
@@ -64,8 +71,7 @@ int main(int argc, char* argv[])
 	input_file >> ws;
 	try
 	{
-
-		while (input_file.eof() == false)
+		while (input_file.eof() == false or station != 0)
 		{
 			switch (station)
 			{
@@ -92,7 +98,7 @@ int main(int argc, char* argv[])
 			case ',':station = 47; break;
 			case ';':station = 48; break;
 			default:
-				throw get_data; //异常的字符，抛出异常
+				station = 30;
 			}break;
 
 			case 1:switch (NextChar())
@@ -206,13 +212,13 @@ int main(int argc, char* argv[])
 				break;
 			case 12:
 				NextChar();
-				if (get_data == '0' )
+				if (get_data == '0')
 					station = 13;
 				else throw get_data;
 				break;
 			case 13:
 				NextChar();
-				if (get_data == 'x' or get_data ==  'X')
+				if (get_data == 'x' or get_data == 'X')
 					station = 14;
 				else throw get_data;
 				break;
@@ -260,15 +266,15 @@ int main(int argc, char* argv[])
 				break;
 			case 19:
 				NextChar();
-				if (get_data >= '0' and get_data <='7')
+				if (get_data >= '0' and get_data <= '7')
 					station = 22;
-				else if(get_data=='+' or get_data=='-')
+				else if (get_data == '+' or get_data == '-')
 					station = 20;
 				else throw get_data;
 				break;
 			case 20:
 				NextChar();
-				if (get_data =='0')
+				if (get_data == '0')
 					station = 21;
 				else throw get_data;
 				break;
@@ -362,16 +368,17 @@ int main(int argc, char* argv[])
 				PrintWord(ID);
 				break;
 			case  32:
-				if (get_data=='*')
+				NextChar();
+				if (get_data == '*')
 					station = 33;
 				else station = 34;
 				break;
 			case 33:
-				PrintWord(EXP,"**");
+				PrintWord(EXP, "**");
 				break;
 			case 34:
 				stack_data.push(get_data);
-				PrintWord(MULTI,"*");
+				PrintWord(MULTI, "*");
 				break;
 			case 35:
 				if (get_data == '=')
@@ -383,7 +390,7 @@ int main(int argc, char* argv[])
 				break;
 			case 37:
 				stack_data.push(get_data);
-				PrintWord(COLON,":");
+				PrintWord(COLON, ":");
 				break;
 			case 38:
 				if (get_data == '=')
@@ -400,7 +407,7 @@ int main(int argc, char* argv[])
 				break;
 			case 41:
 				stack_data.push(get_data);
-				PrintWord(LT,"<");
+				PrintWord(LT, "<");
 				break;
 			case 42:
 				PrintWord(EQ, "=");
@@ -428,9 +435,7 @@ int main(int argc, char* argv[])
 				PrintWord(SEMIC, ";");
 				break;
 			}
-
 		}
-
 	}
 	catch (char next_char)
 	{

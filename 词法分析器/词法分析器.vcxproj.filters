@@ -18,6 +18,9 @@
     <ClCompile Include="词法分析器.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="word.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="word.h">
