@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
 			{
 			case 'x':
 			case 'X':station = 3; break;
+			case '0':station = 51; break;
 			case '1':
 			case '2':
 			case '3':
@@ -131,16 +132,22 @@ int main(int argc, char* argv[])
 			case '5':
 			case '6':
 			case '7':station = 5; break;
+			case '.':station = 25; break;
 			default:if ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
 				station = 7;
 				   else
 				throw get_data;
 				break;
 			}break;
-			case 3:NextChar(); switch ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f')) {
-			case true:station = 4; break;
-			case false:throw get_data;
-			}break;
+			case 3:NextChar();
+				if((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
+					station = 4;
+				else if (get_data == '0')
+					station = 52;
+				else if (get_data == '.')
+					station = 10;
+				else throw get_data;
+				break;
 			case 4:
 				NextChar();
 				if ((get_data >= '0' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
@@ -211,7 +218,7 @@ int main(int argc, char* argv[])
 				break;
 			case 11:
 				NextChar();
-				if ((get_data >= '0' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
+				if ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
 					station = 15;
 				else if (get_data == '+' or get_data == '-')
 					station = 12;
@@ -227,6 +234,12 @@ int main(int argc, char* argv[])
 				NextChar();
 				if (get_data == 'x' or get_data == 'X')
 					station = 14;
+				else throw get_data;
+				break;
+			case 14:
+				NextChar();
+				if ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
+					station = 15;
 				else throw get_data;
 				break;
 			case 15:
@@ -273,7 +286,7 @@ int main(int argc, char* argv[])
 				break;
 			case 19:
 				NextChar();
-				if (get_data >= '0' and get_data <= '7')
+				if (get_data >= '1' and get_data <= '7')
 					station = 22;
 				else if (get_data == '+' or get_data == '-')
 					station = 20;
@@ -287,7 +300,7 @@ int main(int argc, char* argv[])
 				break;
 			case 21:
 				NextChar();
-				if (get_data >= '0' and get_data <= '7')
+				if (get_data >= '1' and get_data <= '7')
 					station = 22;
 				else throw get_data;
 				break;
@@ -335,7 +348,7 @@ int main(int argc, char* argv[])
 				break;
 			case 26:
 				NextChar();
-				if (get_data >= '0' and get_data <= '9')
+				if (get_data >= '1' and get_data <= '9')
 					station = 28;
 				else if (get_data == '+' or get_data == '-')
 					station = 27;
@@ -446,6 +459,18 @@ int main(int argc, char* argv[])
 				break;
 			case 50:
 				PrintWord(RR_BRAC, ")");
+				break;
+			case 51:
+				NextChar();
+				if (get_data == '0' and get_data <= '9')
+					station = 18;
+				else throw get_data;
+				break;
+			case 52:
+				NextChar();
+				if (get_data == '.')
+					station = 10;
+				else throw get_data;
 				break;
 			}
 		}
