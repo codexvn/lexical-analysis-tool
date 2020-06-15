@@ -124,7 +124,6 @@ int main(int argc, char* argv[])
 			{
 			case 'x':
 			case 'X':station = 3; break;
-			case '0':
 			case '1':
 			case '2':
 			case '3':
@@ -132,9 +131,13 @@ int main(int argc, char* argv[])
 			case '5':
 			case '6':
 			case '7':station = 5; break;
-			default:station = 7; break;
+			default:if ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
+				station = 7;
+				   else
+				throw get_data;
+				break;
 			}break;
-			case 3:NextChar(); switch ((get_data >= '0' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f')) {
+			case 3:NextChar(); switch ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f')) {
 			case true:station = 4; break;
 			case false:throw get_data;
 			}break;
