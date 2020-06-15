@@ -76,3 +76,4 @@ extern int station;  //当前状态
 extern fstream input_file; //文件对象
 extern string word;
 extern unordered_map<string, enum TokenID>unordered_map_data;
+extern bool last_ls_ID_INT_REAL;

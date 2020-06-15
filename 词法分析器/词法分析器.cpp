@@ -32,6 +32,10 @@ void PrintWord(TokenID id, string value = "") {
 	word.clear();
 	input_file >> ws;
 	station = 0;
+	if(id==ID or id==INT or id==REAL)
+		last_ls_ID_INT_REAL = true;
+	else
+		last_ls_ID_INT_REAL = false;
 }
 int main(int argc, char* argv[])
 {
@@ -40,7 +44,7 @@ int main(int argc, char* argv[])
 		desc.add_options()
 			("help,h", "帮助信息")
 			("I,i", value<string>(), "从文件读取")
-			("O,o", value<string>(), "输出到文件")
+			//("O,o", value<string>(), "输出到文件")
 			;
 		variables_map data;
 		store(parse_command_line(argc, argv, desc), data);
@@ -97,24 +101,25 @@ int main(int argc, char* argv[])
 			case '/':station = 46; break;
 			case ',':station = 47; break;
 			case ';':station = 48; break;
+			case '(':station = 49; break;
+			case ')':station = 50; break;
 			default:
 				station = 30;
 			}break;
 
-			case 1:switch (NextChar())
-			{
-			case '0':station = 2; break;
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':station = 6; break;
-			default:station = 8; break;
-			}break;
+			case 1:
+				if (last_ls_ID_INT_REAL == true)
+					station = 8;
+				else {
+					NextChar();
+					if (get_data == '0')
+						station = 2;
+					else if (get_data >= '1' and get_data <= '9')
+						station = 6;
+					else throw get_data;
+				}
+				break;
+
 			case 2:switch (NextChar())
 			{
 			case 'x':
@@ -171,7 +176,6 @@ int main(int argc, char* argv[])
 				PrintWord(INT);
 				break;
 			case 8:
-				stack_data.push(get_data);
 				if (word[0] == '+')
 					PrintWord(PLUS, "+");
 				else
@@ -433,6 +437,12 @@ int main(int argc, char* argv[])
 				break;
 			case 48:
 				PrintWord(SEMIC, ";");
+				break;
+			case 49:
+				PrintWord(LR_BRAC, "(");
+				break;
+			case 50:
+				PrintWord(RR_BRAC, ")");
 				break;
 			}
 		}

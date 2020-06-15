@@ -46,3 +46,4 @@ unordered_map<string, enum TokenID>unordered_map_data = {
 	{"while",WHILE},
 	{"with",WITH},
 };
+bool last_ls_ID_INT_REAL = false;
