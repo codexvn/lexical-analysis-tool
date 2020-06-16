@@ -133,11 +133,8 @@ int main(int argc, char* argv[])
 			case '6':
 			case '7':station = 5; break;
 			case '.':station = 25; break;
-			default:if ((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
+			default:
 				station = 7;
-				   else
-				throw get_data;
-				break;
 			}break;
 			case 3:NextChar();
 				if((get_data >= '1' and get_data <= '9') or (get_data >= 'a' and get_data <= 'f'))
